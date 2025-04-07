@@ -20,7 +20,7 @@ export interface AuthResponse{
 
 //Resgister User
 export async function registerUser(data:RegisterUserData):Promise<AuthResponse>{
-    const res = await axios.post(`${BASE_URL}/user/resgister-user` , data);
+    const res = await axios.post(`${BASE_URL}/user/register-user` , data);
     console.log("resgister succesfully...." ,res.data)
     return res.data
 }
