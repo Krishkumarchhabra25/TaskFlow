@@ -17,10 +17,11 @@ import { EyeOffIcon, UserPlus, Github ,EyeIcon } from "lucide-react";
 import { RegisterUserData } from '@/lib/api/auth';
 import { useAuth } from '@/hooks/useAuth';
 import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
     const { register } = useAuth();
-
+   const router = useRouter()
     const [formData, setFormData] = useState<RegisterUserData & { confirmPassword: string }>({
       username: "",
       email: "",
@@ -61,6 +62,7 @@ const SignUp = () => {
           password: formData.password,
         });
         toast.success("Account created successfully");
+        router.push("/sign-in")
       } catch (error: any) {
         toast.error(error?.response?.data?.message || "Something went wrong");
       } finally {
