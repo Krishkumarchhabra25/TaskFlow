@@ -4,12 +4,13 @@ import {
   registerUser,
   googleOAuthLogin,
   githubOAuthLogin,
+  setupAccount,
 } from "@/lib/api/auth";
-import { useAuthStore } from "@/stores/useAuthStores";
+import { useAuthContext } from "@/components/providers/AuthContext";
+import { User } from "@/types";
 
 export const useAuth = () => {
-  const setAuth = useAuthStore((state) => state.setAuth);
-  const clearAuth = useAuthStore((state) => state.clearAuth);
+  const { setAuth, clearAuth, token, user } = useAuthContext();
 
   const login = useMutation({
     mutationFn: (data: { email: string; password: string }) =>
@@ -36,6 +37,22 @@ export const useAuth = () => {
     onSuccess: ({ user, token }) => setAuth(user, token),
   });
 
+  const setup = useMutation({
+    mutationFn: (data: {
+      choice: "personal" | "organization";
+      organizationName?: string;
+    }) => setupAccount(data, token!),
+    onSuccess: ({ organization }, variables) => {
+      const updatedUser: User = {
+        ...user!,
+        setup_complete:true,
+        role: variables.choice === "organization" ? "owner" : "user",
+        // Don't set setupComplete here yet!
+      };
+      setAuth(updatedUser, token!);
+    }
+  });
+
   const logout = () => clearAuth();
 
   return {
@@ -44,5 +61,6 @@ export const useAuth = () => {
     googleLogin,
     githubLogin,
     logout,
+    setup,
   };
 };

@@ -17,6 +17,17 @@ export interface AuthResponse{
     token:string;
 }
 
+export interface SetupRequest {
+    choice: "personal" | "organization";
+    organizationName?: string;
+  }
+  
+  export interface SetupResponse {
+    message: string;
+    organization?: { id: string };
+  }
+  
+
 
 //Resgister User
 export async function registerUser(data:RegisterUserData):Promise<AuthResponse>{
@@ -43,3 +54,18 @@ export async function githubOAuthLogin(code:string):Promise<AuthResponse>{
 
     return res.data
 }
+
+export async function setupAccount(
+    data: SetupRequest,
+    token: string
+  ): Promise<SetupResponse> {
+    const res = await axios.post(
+      `${BASE_URL}/invite/setup`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("Setup Response:", res.data);
+    return res.data;
+  }

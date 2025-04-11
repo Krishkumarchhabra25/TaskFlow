@@ -48,10 +48,10 @@ const SignIn = () => {
       try {
         setLoading(true);
         await login.mutateAsync(formData);
-        toast.success("Signed in successfully");
+        toast.success("Signed in successfully" , {id:"Signed-in"});
         router.push("/account-setup"); // Redirect to protected route
       } catch (error: any) {
-        toast.error(error?.response?.data?.message || "Invalid credentials");
+        toast.error(error?.response?.data?.message || "Invalid credentials" , {id:"invalid-error"});
       } finally {
         setLoading(false);
       }
@@ -64,7 +64,7 @@ const SignIn = () => {
         const handleOAuth = async () => {
           try {
             setLoading(true);
-            if (code && window.location.pathname === "/auth/callback/google") {
+            if (code && window.location.pathname === "/callback/google") {
                 await googleLogin.mutateAsync(code);
                 toast.success("Signed in with Google");
               } else if (githubCode) {
@@ -87,14 +87,14 @@ const SignIn = () => {
       }, [searchParams, googleLogin, githubLogin, router]);
 
       const handleGoogleOAuth = () => {
-        const redirectURI = `${window.location.origin}/auth/callback/google`;
+        const redirectURI = `${window.location.origin}/callback/google`;
         const googleAuthURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${redirectURI}&response_type=code&scope=openid%20email%20profile&prompt=consent&access_type=offline`;
       
         window.location.href = googleAuthURL;
       };
       
       const handleGitHubOAuth = () => {
-        const redirectURI = `${window.location.origin}/sign-in`;
+        const redirectURI = `${window.location.origin}/callback/github`;
         const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=${redirectURI}&scope=user:email`;
     
         window.location.href = githubAuthURL;

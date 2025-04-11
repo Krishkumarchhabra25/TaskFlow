@@ -61,10 +61,12 @@ const SignUp = () => {
           email: formData.email,
           password: formData.password,
         });
-        toast.success("Account created successfully");
+        toast.success("Account created successfully", { id: "success-message" });
         router.push("/sign-in")
       } catch (error: any) {
-        toast.error(error?.response?.data?.message || "Something went wrong");
+        toast.error(error?.response?.data?.message || "Something went wrong", {
+          id: "error-message",
+        });
       } finally {
         setLoading(false);  
       }

@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "user";
+export type UserRole = "user" | "owner";
 
 export interface User {
   id: string;
@@ -8,7 +8,7 @@ export interface User {
   provider: "google" | "github" | "local";
   providerId?: string | null;
   role: UserRole;
-  setupComplete: boolean;
+  setup_complete:boolean,
   createdAt: Date;
   updatedAt: Date;
 }

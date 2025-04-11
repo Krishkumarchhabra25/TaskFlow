@@ -1,6 +1,23 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+
+@layer utilities {
+  @keyframes progress {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .animate-progress {
+    animation: progress 1s ease-in-out forwards;
+  }
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;
