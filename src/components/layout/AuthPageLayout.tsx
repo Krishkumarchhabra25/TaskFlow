@@ -13,7 +13,7 @@ export default function AuthPageLayout({ children }: { children: React.ReactNode
     if (loading) return;
 
     if (token  && user?.setup_complete) {
-      router.replace("/dashboard");
+      router.replace("/");
     } else {
       setShowContent(true);
     }

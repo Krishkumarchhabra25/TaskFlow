@@ -50,7 +50,7 @@ export default function AccountSetup() {
               setStep(2);
             } else {
               toast.success("You chose Personal", { id: "account-setup" });
-              router.push("/dashboard");
+              router.push("/");
             }
           },
           onError: (err) => {
@@ -65,7 +65,7 @@ export default function AccountSetup() {
         .forEach(sendInvite);
 
       toast.success("Invitations sent!", { id: "account-setup" });
-      router.push("/dashboard");
+      router.push("/");
     }
   };
 
@@ -220,7 +220,7 @@ export default function AccountSetup() {
   <div className="w-full flex justify-end">
   <button
     className="text-sm text-gray-500 hover:underline"
-    onClick={() => router.push("/dashboard")}
+    onClick={() => router.push("/")}
   >
     Skip for now
   </button>

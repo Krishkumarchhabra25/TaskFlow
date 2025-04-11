@@ -25,9 +25,9 @@ export function Sidebar() {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-    { icon: CheckSquare, label: "Tasks", href: "/tasks" },
+    { icon: CheckSquare, label: "Tasks", href: "/task" },
     { icon: UserPlus, label: "Team", href: "/team" },
-    { icon: Bell, label: "Notifications", href: "/notifications" },
+    { icon: Bell, label: "Notifications", href: "/notification" },
     { icon: Settings, label: "Settings", href: "/settings" },
   ];
 
