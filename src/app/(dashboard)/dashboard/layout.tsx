@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/components/providers/AuthContext";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/common/Sidebar";
+import { Header } from "@/components/common/Header";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 
@@ -24,5 +26,16 @@ console.log("tokennn..." , user)
     return <div className="min-h-screen flex justify-center items-center">Loading...</div>;
   }
 
-  return <>{children}</>;
+  return <>
+ <div className="flex h-screen bg-gray-50">
+      <Sidebar />
+      {/* ← changed overflow-hidden → overflow-visible */}
+      <div className="flex-1 flex flex-col overflow-visible">
+        <Header />
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  </>;
 }
