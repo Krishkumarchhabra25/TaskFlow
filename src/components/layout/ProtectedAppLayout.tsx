@@ -17,6 +17,7 @@ export default function ProtectedAppLayout({
   const router = useRouter();
   const pathname = usePathname();
 
+  console.log("tokennn.."  , token)
 
   useEffect(() => {
     if (loading) return;

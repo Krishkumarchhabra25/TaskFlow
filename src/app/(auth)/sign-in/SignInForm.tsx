@@ -73,7 +73,7 @@ const SignIn = () => {
               }
         
               router.push("/account-setup");
-            router.push("/account-setup");
+          
           } catch (err: any) {
             toast.error(err?.response?.data?.message || "OAuth login failed");
           } finally {

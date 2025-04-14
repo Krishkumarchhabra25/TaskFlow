@@ -7,19 +7,20 @@ import { useAuthContext } from "@/components/providers/AuthContext";
 export default function AuthPageLayout({ children }: { children: React.ReactNode }) {
   const { user, token, loading } = useAuthContext();
   const router = useRouter();
-  const [showContent, setShowContent] = useState(false);
+
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    if (loading) return;
-
-    if (token  && user?.setup_complete) {
-      router.replace("/");
-    } else {
-      setShowContent(true);
+    if (!loading) {
+      if (token && user?.setup_complete) {
+        router.replace("/dashboard");
+      } else {
+        setShouldRender(true); // ✅ Now it will show sign-in content
+      }
     }
-  }, [token, user, loading, router]);
+  }, [loading, token, user, router]);
 
-  if (loading || !showContent) {
+  if (loading || !shouldRender) {
     return <div className="min-h-screen flex justify-center items-center">Loading...</div>;
   }
 

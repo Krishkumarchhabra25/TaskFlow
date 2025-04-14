@@ -24,7 +24,7 @@ export function Sidebar() {
   };
 
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: CheckSquare, label: "Tasks", href: "/task" },
     { icon: UserPlus, label: "Team", href: "/team" },
     { icon: Bell, label: "Notifications", href: "/notification" },

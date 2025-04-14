@@ -82,6 +82,7 @@ export function Header() {
     logout()
     // Redirect to login page
     navigate.push("/sign-in");
+    
   };
 
   return (

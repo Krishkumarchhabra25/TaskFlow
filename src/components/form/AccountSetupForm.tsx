@@ -50,7 +50,7 @@ export default function AccountSetup() {
               setStep(2);
             } else {
               toast.success("You chose Personal", { id: "account-setup" });
-              router.push("/");
+              router.push("/dashboard");
             }
           },
           onError: (err) => {
@@ -65,7 +65,7 @@ export default function AccountSetup() {
         .forEach(sendInvite);
 
       toast.success("Invitations sent!", { id: "account-setup" });
-      router.push("/");
+      router.push("/dashboard");
     }
   };
 
