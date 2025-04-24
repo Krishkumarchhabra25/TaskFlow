@@ -6,7 +6,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { Sidebar } from "@/components/common/Sidebar";
 import { Header } from "@/components/common/Header";
 
-const publicRoutes = ["/sign-in", "/sign-up", "/forgot-password"];
 
 export default function ProtectedAppLayout({
   children,

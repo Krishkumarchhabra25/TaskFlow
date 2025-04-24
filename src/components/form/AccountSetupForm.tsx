@@ -19,14 +19,15 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "../providers/AuthContext";
 
 export default function AccountSetup() {
   const [step, setStep] = useState<1 | 2>(1);
   const [accountType, setAccountType] = useState<"personal" | "organization">("personal");
   const [invites, setInvites] = useState<string[]>(["", "", ""]);
   const { setup } = useAuth();
+  const { user, token, setAuth } = useAuthContext();
   const router = useRouter();
-
   const handleInviteChange = (idx: number, value: string) => {
     const updatedInvites = [...invites];
     updatedInvites[idx] = value;
@@ -60,14 +61,27 @@ export default function AccountSetup() {
         }
       );
     } else {
-      invites
-        .filter((email) => email.trim())
-        .forEach(sendInvite);
-
+      const validInvites = invites.filter((email) => email.trim());
+  
+      if (validInvites.length === 0) {
+        toast.error("Please invite at least one member", { id: "account-setup" });
+        return;
+      }
+  
+      validInvites.forEach(sendInvite);
+  
+      // ✅ Now mark setupComplete as true for organization user
+      const updatedUser = {
+        ...user!,
+        setup_complete: true,
+      };
+      setAuth(updatedUser, token!);
+  
       toast.success("Invitations sent!", { id: "account-setup" });
       router.push("/dashboard");
     }
   };
+  
 
   const isLoading = setup.isLoading;
 

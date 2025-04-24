@@ -45,13 +45,13 @@ export const useAuth = () => {
     onSuccess: ({ organization }, variables) => {
       const updatedUser: User = {
         ...user!,
-        setup_complete:true,
         role: variables.choice === "organization" ? "owner" : "user",
-        // Don't set setupComplete here yet!
+        setup_complete: variables.choice === "personal", // ← only true if "personal"
       };
       setAuth(updatedUser, token!);
-    }
+    },
   });
+  
 
   const logout = () => clearAuth();
 
