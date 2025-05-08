@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useAuthContext } from "../providers/AuthContext";
-
+import axios from "axios";
 export default function AccountSetup() {
   const [step, setStep] = useState<1 | 2>(1);
   const [accountType, setAccountType] = useState<"personal" | "organization">("personal");
@@ -54,36 +54,44 @@ export default function AccountSetup() {
               router.push("/dashboard");
             }
           },
-          onError: (err) => {
-            toast.error("Setup failed", { id: "account-setup" });
-            console.error("Setup failed:", err);
+          onError: (err: AxiosError<any>) => {
+            if (axios.isAxiosError(err)) {
+              const data = err.response?.data;
+            
+
+              const redirect = data?.redirectTo;
+              const message =
+                data?.error || data?.message || err.message || "Setup failed";
+
+              toast.error(message);
+
+              if (redirect === "invitation") {
+                setAccountType("organization");
+                setStep(2);
+              }
+            } else {
+              console.error("Unexpected setup error:", err);
+              toast.error("An unexpected error occurred");
+            }
           },
         }
       );
     } else {
-      const validInvites = invites.filter((email) => email.trim());
-  
-      if (validInvites.length === 0) {
-        toast.error("Please invite at least one member", { id: "account-setup" });
+      const valid = invites.filter((e) => e.trim());
+      if (!valid.length) {
+        toast.error("Please invite at least one member");
         return;
       }
-  
-      validInvites.forEach(sendInvite);
-  
-      // ✅ Now mark setupComplete as true for organization user
-      const updatedUser = {
-        ...user!,
-        setup_complete: true,
-      };
-      setAuth(updatedUser, token!);
-  
-      toast.success("Invitations sent!", { id: "account-setup" });
+      valid.forEach(sendInvite);
+      setAuth({ ...user!, setup_complete: true }, token!);
+      toast.success("Invitations sent!");
       router.push("/dashboard");
     }
   };
-  
 
   const isLoading = setup.isLoading;
+
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
@@ -232,12 +240,7 @@ export default function AccountSetup() {
             </Button>
             {step === 2 && (
   <div className="w-full flex justify-end">
-  <button
-    className="text-sm text-gray-500 hover:underline"
-    onClick={() => router.push("/")}
-  >
-    Skip for now
-  </button>
+ 
 </div>
 )}
 

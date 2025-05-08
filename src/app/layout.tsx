@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppProvider from "@/components/providers/AppProvider";
-import ProtectedAppLayout from "@/components/layout/ProtectedAppLayout";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,7 +35,10 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <AppProvider>{children}</AppProvider>
+         <AppProvider>
+          {children}
+          <Toaster toastOptions={{ duration: 4000 }} /> {/* ✅ Move here */}
+        </AppProvider>
       </body>
     </html>
   );
